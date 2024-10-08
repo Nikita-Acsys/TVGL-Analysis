@@ -5,8 +5,8 @@ import streamlit as st
 import plotly.graph_objs as go
 
 # Load your data
-og_df = pd.read_csv(r'C:\Users\nikitasharma\Documents\MTSF-DG\graph-learning\input_data_prices.csv')
-returns = pd.read_csv(r'C:\Users\nikitasharma\Documents\MTSF-DG\graph-learning\input_data_returns.csv')
+og_df = pd.read_csv(r'input_data_prices.csv')
+returns = pd.read_csv(r'input_data_returns.csv')
 og_df['Datetime'] = pd.to_datetime(og_df['Datetime'])
 
 # Streamlit App
