@@ -5,8 +5,8 @@ import streamlit as st
 import plotly.graph_objs as go
 
 # Load your data
-og_df = pd.read_csv(r'input_data_prices.csv')
-returns = pd.read_csv(r'input_data_returns.csv')
+og_df = pd.read_csv('input_data_prices.csv')
+returns = pd.read_csv('input_data_returns.csv')
 og_df['Datetime'] = pd.to_datetime(og_df['Datetime'])
 
 # Streamlit App
@@ -18,8 +18,8 @@ asset1 = st.selectbox("Select Asset 1:", og_df.columns[1:])
 asset2 = st.selectbox("Select Asset 2:", og_df.columns[1:])
 
 # Inputs for TVGL parameters
-lamb = st.number_input("Lambda:", value=0.8, step=0.05)
-beta = st.number_input("Beta:", value=1.0, step=0.05)
+lamb = st.number_input("Lambda:", value=0.8, step=0.1)
+beta = st.number_input("Beta:", value=1, step=1)
 lengthOfSlice = st.number_input("Length of Slice:", value=5, step=1)
 
 # Button to update the graphs
@@ -69,22 +69,21 @@ if st.button("Update Graphs"):
         xaxis_title='Date',
         yaxis_title=f'{asset1} Price',
         yaxis2=dict(title=f'{asset2} Price', overlaying='y', side='right', showgrid=False),
-        legend=dict(x=0, y=1),
-        hovermode='x unified'
+        legend=dict(x=0, y=1), hovermode='x unified',  xaxis=dict(hoverformat='%d-%m-%Y')
     ) # Position the legend
 
 
     # Prepare ratio plot
     ratio_fig = go.Figure()
     ratio_fig.add_trace(go.Scatter(x=df_filtered.index, y=df_filtered[f'{asset1}_{asset2}_ratio'], mode='lines', name=f'{asset1}/{asset2} Ratio', line=dict(color='orange')))
-    ratio_fig.update_layout(title=f'{asset1} to {asset2} Ratio', xaxis_title='Date', yaxis_title=f'{asset1}/{asset2} Ratio')
+    ratio_fig.update_layout(title=f'{asset1} to {asset2} Ratio', xaxis_title='Date', yaxis_title=f'{asset1}/{asset2} Ratio', hovermode='x unified',  xaxis=dict(hoverformat='%d-%m-%Y'))
 
     # Prepare precision plot
     precision_fig = go.Figure()
     precision_values = [theta[0, 1] for theta in thetaSet]
     dates = df.index[::lengthOfSlice][:len(precision_values)]
     precision_fig.add_trace(go.Scatter(x=dates, y=precision_values, mode='lines', name=f'Precision {asset1}-{asset2}'))
-    precision_fig.update_layout(title='Precision Matrix Over Time', xaxis_title='Time', yaxis_title='Value')
+    precision_fig.update_layout(title='Precision Matrix Over Time', xaxis_title='Time', yaxis_title='Value', hovermode='x unified',  xaxis=dict(hoverformat='%d-%m-%Y'))
 
     # Display the graphs in Streamlit
     st.plotly_chart(price_fig)
