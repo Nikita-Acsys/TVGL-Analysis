@@ -19,7 +19,7 @@ asset2 = st.selectbox("Select Asset 2:", og_df.columns[1:])
 
 # Inputs for TVGL parameters
 lamb = st.number_input("Lambda:", value=0.8, step=0.05)
-beta = st.number_input("Beta:", value=1, step=0.05)
+beta = st.number_input("Beta:", value=1.0, step=0.05)
 lengthOfSlice = st.number_input("Length of Slice:", value=5, step=1)
 
 # Button to update the graphs
