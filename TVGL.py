@@ -26,8 +26,6 @@ def TVGL(data, lengthOfSlice, lamb, beta, indexOfPenalty, verbose=False, eps=2e-
         empCov = GenEmpCov(sampleSet[i].T)
         
         empCovSet.append(empCov)
-    print(empCov)
-    print('lambda = %s, beta = %s'%(lamb, beta))
     
     # Define a graph representation to solve
     gvx = TGraphVX()
